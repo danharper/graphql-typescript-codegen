@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
+  "bin": {
+    "graphql-typescript-codegen": "dist/codegen/index.js"
+  },
   "scripts": {
     "test": "jest",
     "tsc": "tsc -w",
