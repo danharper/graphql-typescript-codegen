@@ -552,7 +552,7 @@ function findDecoratorReferencesOfImport(
 ): Decorator[] {
   // https://github.com/dsherret/ts-morph/issues/430
   // there's a better way to do this, with project.getAmbientModule('...')
-  const lib = file.getImportDeclarationOrThrow('../library');
+  const lib = file.getImportDeclarationOrThrow('../../decorators');
   const namedImportNode = lib
     .getNamedImports()
     .find((imp) => imp.getName() === importName);

@@ -4,7 +4,9 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "tsc": "tsc -w",
+    "build": "rm -rf dist; tsc"
   },
   "repository": {
     "type": "git",
