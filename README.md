@@ -186,5 +186,25 @@ export const schema = new GraphQLSchema({
 Which, of course, can then generate your GraphQL standard definition file too:
 
 ```graphql
+type BlogPost {
+  id: ID!
+  title: String!
+  body: String!
+  author: Author!
+}
 
+type Author {
+  id: ID!
+  name: String
+}
+
+type Query {
+  blog_post(id: ID!): BlogPost
+  blog_posts(titleContains: String): [BlogPost!]!
+  authors: [Author!]!
+}
+
+type Mutation {
+  publish_post(id: ID!): BlogPost!
+}
 ```
