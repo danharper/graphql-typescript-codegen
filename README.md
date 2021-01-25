@@ -72,6 +72,8 @@ export class BlogPostRepository {
 Generates the following file:
 
 ```js
+// @generated
+
 import {
   GraphQLBoolean,
   GraphQLFloat,
