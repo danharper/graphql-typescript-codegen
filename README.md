@@ -41,12 +41,17 @@ export class Author {
 
 export class BlogPostRepository {
   @GraphQLQueryRoot('blog_post')
-  async getPostByID(@GraphQLArg<GraphQLID>() id: number): Promise<?BlogPost> {
+  async getPostByID(
+    @GraphQLArg<GraphQLID>() id: number,
+  ): Promise<?BlogPost> {
     return ...;
   }
 
   @GraphQLQueryRoot('blog_posts')
-  async queryPosts(titleContains?: string, @GraphQLArg<GraphQLID>() authorID: number): Promise<BlogPost[]> {
+  async queryPosts(
+    titleContains?: string,
+    @GraphQLArg<GraphQLID>('author') authorID?: number,
+  ): Promise<BlogPost[]> {
     return ...;
   }
 
@@ -56,7 +61,9 @@ export class BlogPostRepository {
   }
 
   @GraphQLMutationRoot('publish_post')
-  async publishPost(id: GraphQLID): Promise<BlogPost> {
+  async publishPost(
+    id: GraphQLID,
+  ): Promise<BlogPost> {
     ...
   }
 }
@@ -141,10 +148,16 @@ const GeneratedGraphQLObject_Query = new GraphQLObjectType({
         titleContains: {
           type: GraphQLString,
         },
+        author: {
+          type: GraphQLID,
+        },
       },
       async resolve(_, args) {
         const module = await import('../path/to/BlogPostRepository');
-        return await module.BlogPostRepository.queryPosts(args.titleContains);
+        return await module.BlogPostRepository.queryPosts(
+          args.titleContains,
+          args.author,
+        );
       },
     },
     authors: {
@@ -200,7 +213,7 @@ type Author {
 
 type Query {
   blog_post(id: ID!): BlogPost
-  blog_posts(titleContains: String): [BlogPost!]!
+  blog_posts(titleContains: String, author: ID): [BlogPost!]!
   authors: [Author!]!
 }
 
