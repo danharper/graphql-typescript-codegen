@@ -43,6 +43,7 @@ import {
   isPresent,
   mapObjectValues,
 } from './utils';
+import path from 'path';
 
 type RootDecoratorName = 'GraphQLQueryRoot' | 'GraphQLMutationRoot';
 
@@ -50,6 +51,7 @@ type Options = {
   testOptions?: {
     loadFromFiles: string[];
   };
+  resolveImportsRelativeTo: string;
 };
 
 class Parser {
@@ -70,7 +72,7 @@ class Parser {
     }
   > = {};
 
-  constructor(options: Options) {
+  constructor(private options: Options) {
     const loadFromFiles = options.testOptions?.loadFromFiles;
 
     const project = new Project({
@@ -154,19 +156,7 @@ class Parser {
             ...root,
             resolution: {
               __type: 'RootResolution',
-              // file: [
-              //   method.getSourceFile().getDirectory().getPath(),
-              //   method.getSourceFile().getDirectoryPath(),
-              //   __dirname,
-              //   process.cwd(),
-              // ].join('\n\n'),
-              file:
-                '.' +
-                method
-                  .getSourceFile()
-                  .getFilePath()
-                  .replace('.ts', '')
-                  .replace(process.cwd(), ''),
+              file: this.resolvePathTo(method.getSourceFile()),
               export: method
                 .getParentIfKindOrThrow(SyntaxKind.ClassDeclaration)
                 .getNameOrThrow(),
@@ -359,6 +349,24 @@ class Parser {
       description: null,
       type: this.visitInputType(decorator, property.getType()),
     });
+  }
+
+  resolvePathTo(file: SourceFile): string {
+    // Get relative path
+    let relativePath = path.relative(
+      this.options.resolveImportsRelativeTo,
+      file.getFilePath(),
+    );
+
+    // Prefix with ./ if needed
+    relativePath = relativePath.startsWith('../')
+      ? relativePath
+      : './' + relativePath;
+
+    // Strip file extensions
+    relativePath = relativePath.replace('.ts', '').replace('.js', '');
+
+    return relativePath;
   }
 }
 

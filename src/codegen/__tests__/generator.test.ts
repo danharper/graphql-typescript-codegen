@@ -9,6 +9,7 @@ test('run', () => {
         testOptions: {
           loadFromFiles: [SAMPLES_DIR + '/Map.ts'],
         },
+        resolveImportsRelativeTo: SAMPLES_DIR,
       }),
     ),
   ).toMatchInlineSnapshot(`
@@ -106,42 +107,42 @@ test('run', () => {
         location: {
           type: new GraphQLNonNull(GeneratedGraphQLObject_Location),
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/blah\\");
+            const module = await import(\\"./blah\\");
             return module.Location.loadLoc();
           },
         },
         locations: {
           type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GeneratedGraphQLObject_Location))),
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/blah\\");
+            const module = await import(\\"./blah\\");
             return module.Location.loadAllLocations();
           },
         },
         locationStrings: {
           type: new GraphQLList(new GraphQLNonNull(GraphQLString)),
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/blah\\");
+            const module = await import(\\"./blah\\");
             return module.Location.someStrings();
           },
         },
         aString: {
           type: new GraphQLNonNull(GraphQLString),
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/blah\\");
+            const module = await import(\\"./blah\\");
             return module.Location.aString();
           },
         },
         anIntYeah: {
           type: new GraphQLNonNull(GraphQLInt),
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/blah\\");
+            const module = await import(\\"./blah\\");
             return module.Location.anInt();
           },
         },
         map_locations: {
           type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/Map\\");
+            const module = await import(\\"./Map\\");
             return module.Map.locations();
           },
         },
@@ -153,7 +154,7 @@ test('run', () => {
             },
           },
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/Map\\");
+            const module = await import(\\"./Map\\");
             return module.Map.mapLoc(
               args.input, 
             );
@@ -182,7 +183,7 @@ test('run', () => {
             },
           },
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/blah\\");
+            const module = await import(\\"./blah\\");
             return module.Location.blahBlahCreateLocation(
               args.name, args.age, args.externalName, args.another, 
             );
@@ -196,7 +197,7 @@ test('run', () => {
             },
           },
           resolve: async (_, args) => {
-            const module = await import(\\"./src/codegen/sample/blah\\");
+            const module = await import(\\"./blah\\");
             return module.Location.blahEditItYeah(
               args.input, 
             );

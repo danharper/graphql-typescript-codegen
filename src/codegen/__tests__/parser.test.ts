@@ -7,6 +7,7 @@ test('run', () => {
       testOptions: {
         loadFromFiles: [SAMPLES_DIR + '/blah.ts', SAMPLES_DIR + '/Map.ts'],
       },
+      resolveImportsRelativeTo: SAMPLES_DIR,
     }),
   ).toMatchInlineSnapshot(`
     Object {
@@ -54,7 +55,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Location",
-              "file": "./src/codegen/sample/blah",
+              "file": "./blah",
               "method": "blahBlahCreateLocation",
             },
             "type": Object {
@@ -80,7 +81,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Location",
-              "file": "./src/codegen/sample/blah",
+              "file": "./blah",
               "method": "blahEditItYeah",
             },
             "type": Object {
@@ -104,7 +105,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Location",
-              "file": "./src/codegen/sample/blah",
+              "file": "./blah",
               "method": "loadLoc",
             },
             "type": Object {
@@ -120,7 +121,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Location",
-              "file": "./src/codegen/sample/blah",
+              "file": "./blah",
               "method": "loadAllLocations",
             },
             "type": Object {
@@ -142,7 +143,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Location",
-              "file": "./src/codegen/sample/blah",
+              "file": "./blah",
               "method": "someStrings",
             },
             "type": Object {
@@ -161,7 +162,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Location",
-              "file": "./src/codegen/sample/blah",
+              "file": "./blah",
               "method": "aString",
             },
             "type": Object {
@@ -177,7 +178,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Location",
-              "file": "./src/codegen/sample/blah",
+              "file": "./blah",
               "method": "anInt",
             },
             "type": Object {
@@ -193,7 +194,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Map",
-              "file": "./src/codegen/sample/Map",
+              "file": "./Map",
               "method": "locations",
             },
             "type": Object {
@@ -225,7 +226,7 @@ test('run', () => {
             "resolution": Object {
               "__type": "RootResolution",
               "export": "Map",
-              "file": "./src/codegen/sample/Map",
+              "file": "./Map",
               "method": "mapLoc",
             },
             "type": "Location",
