@@ -18,7 +18,9 @@ const config = fs.existsSync(configPath)
   ? (JSON.parse(fs.readFileSync(configPath).toString()) as Config)
   : {};
 
-const outputFilePath = resolveApp(config.generatedOutputPath ?? 'x.js');
+const outputFilePath = resolveApp(
+  config.generatedOutputPath ?? 'GeneratedGraphQLSchema.js',
+);
 
 const generatedFileContents = generator(
   parser({resolveImportsRelativeTo: path.dirname(outputFilePath)}),
