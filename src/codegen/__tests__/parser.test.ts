@@ -1,7 +1,8 @@
 import {parser} from '../../codegen/parser';
+import {SAMPLES_DIR} from '../sample/DIR';
 
 test('run', () => {
-  expect(parser('blah.ts')).toMatchInlineSnapshot(`
+  expect(parser(SAMPLES_DIR + '/blah.ts')).toMatchInlineSnapshot(`
     Object {
       "description": null,
       "mutation": Object {

@@ -1,8 +1,9 @@
 import {parser} from '../../codegen/parser';
 import {generator} from '../../codegen/generator';
+import {SAMPLES_DIR} from '../sample/DIR';
 
 test('run', () => {
-  expect(generator(parser('blah.ts'))).toMatchInlineSnapshot(`
+  expect(generator(parser(SAMPLES_DIR + '/blah.ts'))).toMatchInlineSnapshot(`
     "// @generated
     import {GraphQLBoolean, GraphQLFloat, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString} from 'graphql';
 

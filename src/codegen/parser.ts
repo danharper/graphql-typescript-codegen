@@ -67,8 +67,10 @@ class Parser {
   constructor(filenameToProcess: string) {
     const project = new Project({
       tsConfigFilePath: 'tsconfig.json',
+      skipAddingFilesFromTsConfig: true,
     });
 
+    project.addSourceFileAtPath(filenameToProcess);
     this.file = project.getSourceFileOrThrow(filenameToProcess);
   }
 
