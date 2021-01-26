@@ -2,7 +2,13 @@ import {parser} from '../../codegen/parser';
 import {SAMPLES_DIR} from '../sample/DIR';
 
 test('run', () => {
-  expect(parser(SAMPLES_DIR + '/blah.ts')).toMatchInlineSnapshot(`
+  expect(
+    parser({
+      testOptions: {
+        loadFromFiles: [SAMPLES_DIR + '/blah.ts', SAMPLES_DIR + '/Map.ts'],
+      },
+    }),
+  ).toMatchInlineSnapshot(`
     Object {
       "description": null,
       "mutation": Object {
@@ -178,6 +184,51 @@ test('run', () => {
               "__type": "NonNull",
               "type": "Int",
             },
+          },
+          Object {
+            "__type": "Field",
+            "args": Array [],
+            "description": null,
+            "name": "map_locations",
+            "resolution": Object {
+              "__type": "RootResolution",
+              "export": "Map",
+              "file": "./src/codegen/sample/Map",
+              "method": "locations",
+            },
+            "type": Object {
+              "__type": "NonNull",
+              "type": Object {
+                "__type": "List",
+                "items": Object {
+                  "__type": "NonNull",
+                  "type": "String",
+                },
+              },
+            },
+          },
+          Object {
+            "__type": "Field",
+            "args": Array [
+              Object {
+                "__type": "Arg",
+                "description": null,
+                "name": "input",
+                "type": Object {
+                  "__type": "NonNull",
+                  "type": "Foo",
+                },
+              },
+            ],
+            "description": null,
+            "name": "new_map_location",
+            "resolution": Object {
+              "__type": "RootResolution",
+              "export": "Map",
+              "file": "./src/codegen/sample/Map",
+              "method": "mapLoc",
+            },
+            "type": "Location",
           },
         ],
         "interfaces": Array [],

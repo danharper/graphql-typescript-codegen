@@ -3,7 +3,15 @@ import {generator} from '../../codegen/generator';
 import {SAMPLES_DIR} from '../sample/DIR';
 
 test('run', () => {
-  expect(generator(parser(SAMPLES_DIR + '/blah.ts'))).toMatchInlineSnapshot(`
+  expect(
+    generator(
+      parser({
+        testOptions: {
+          loadFromFiles: [SAMPLES_DIR + '/Map.ts'],
+        },
+      }),
+    ),
+  ).toMatchInlineSnapshot(`
     "// @generated
     import {GraphQLBoolean, GraphQLFloat, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString} from 'graphql';
 
@@ -128,6 +136,27 @@ test('run', () => {
           resolve: async (_, args) => {
             const module = await import(\\"./src/codegen/sample/blah\\");
             return module.Location.anInt();
+          },
+        },
+        map_locations: {
+          type: new GraphQLNonNull(new GraphQLList(new GraphQLNonNull(GraphQLString))),
+          resolve: async (_, args) => {
+            const module = await import(\\"./src/codegen/sample/Map\\");
+            return module.Map.locations();
+          },
+        },
+        new_map_location: {
+          type: GeneratedGraphQLObject_Location,
+          args: {
+            input: {
+              type: new GraphQLNonNull(GeneratedGraphQLInputObject_Foo),
+            },
+          },
+          resolve: async (_, args) => {
+            const module = await import(\\"./src/codegen/sample/Map\\");
+            return module.Map.mapLoc(
+              args.input, 
+            );
           },
         },
       }),

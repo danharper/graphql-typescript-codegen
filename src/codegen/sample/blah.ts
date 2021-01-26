@@ -143,7 +143,7 @@ export class Location {
 // this kinda sucks because it means the function can't be safely called from your own code..
 // only from the framework
 @GraphQLInput()
-class Foo {
+export class Foo {
   @GraphQLField<GraphQLTypes.Int>('blah')
   blahBlahBlah!: undefined | number;
 

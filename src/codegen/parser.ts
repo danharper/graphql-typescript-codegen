@@ -46,8 +46,14 @@ import {
 
 type RootDecoratorName = 'GraphQLQueryRoot' | 'GraphQLMutationRoot';
 
+type Options = {
+  testOptions?: {
+    loadFromFiles: string[];
+  };
+};
+
 class Parser {
-  private file: SourceFile;
+  private project: Project;
   private roots: Record<
     string,
     {
@@ -64,14 +70,20 @@ class Parser {
     }
   > = {};
 
-  constructor(filenameToProcess: string) {
+  constructor(options: Options) {
+    const loadFromFiles = options.testOptions?.loadFromFiles;
+
     const project = new Project({
       tsConfigFilePath: 'tsconfig.json',
-      skipAddingFilesFromTsConfig: true,
+      skipAddingFilesFromTsConfig: loadFromFiles != null,
     });
 
-    project.addSourceFileAtPath(filenameToProcess);
-    this.file = project.getSourceFileOrThrow(filenameToProcess);
+    if (loadFromFiles) {
+      project.addSourceFilesAtPaths(loadFromFiles);
+      project.resolveSourceFileDependencies();
+    }
+
+    this.project = project;
   }
 
   parse(): SchemaType {
@@ -86,8 +98,10 @@ class Parser {
       this.structures[scalar.name] = {source: 'scalar', type: scalar};
     });
 
-    this.parseRootDecorators('GraphQLQueryRoot');
-    this.parseRootDecorators('GraphQLMutationRoot');
+    this.project.getSourceFiles().map((file) => {
+      this.parseRootDecorators(file, 'GraphQLQueryRoot');
+      this.parseRootDecorators(file, 'GraphQLMutationRoot');
+    });
 
     return {
       description: null,
@@ -112,8 +126,11 @@ class Parser {
     };
   }
 
-  parseRootDecorators(rootDecoratorName: RootDecoratorName): void {
-    findDecoratorReferencesOfImport(this.file, rootDecoratorName).forEach(
+  parseRootDecorators(
+    file: SourceFile,
+    rootDecoratorName: RootDecoratorName,
+  ): void {
+    findDecoratorReferencesOfImport(file, rootDecoratorName).forEach(
       (decorator: Decorator) => {
         const method = decorator.getFirstAncestorByKindOrThrow(
           SyntaxKind.MethodDeclaration,
@@ -554,7 +571,11 @@ function findDecoratorReferencesOfImport(
 ): Decorator[] {
   // https://github.com/dsherret/ts-morph/issues/430
   // there's a better way to do this, with project.getAmbientModule('...')
-  const lib = file.getImportDeclarationOrThrow('../../decorators');
+  const lib = file.getImportDeclaration('../../decorators'); // TODO fix this
+  if (!lib) {
+    return [];
+  }
+
   const namedImportNode = lib
     .getNamedImports()
     .find((imp) => imp.getName() === importName);
@@ -581,6 +602,6 @@ function findDecoratorReferencesOfImport(
 //
 // Exports
 
-export function parser(filenameToProcess: string): SchemaType {
-  return new Parser(filenameToProcess).parse();
+export function parser(options: Options): SchemaType {
+  return new Parser(options).parse();
 }
