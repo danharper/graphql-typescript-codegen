@@ -1,5 +1,5 @@
 // @generated
-import {GraphQLBoolean, GraphQLFloat, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString} from 'graphql';
+const {GraphQLBoolean, GraphQLFloat, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString} = require('graphql');
 
 
 const GeneratedGraphQLScalar_Date = new GraphQLScalarType({
@@ -191,7 +191,7 @@ const GeneratedGraphQLObject_Mutation = new GraphQLObjectType({
   }),
 });
 
-export const schema = new GraphQLSchema({
+exports.schema = new GraphQLSchema({
   query: GeneratedGraphQLObject_Query,
   mutation: GeneratedGraphQLObject_Mutation,
 });

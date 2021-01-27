@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import sade from 'sade';
 import ora from 'ora';
+import {printSchema} from 'graphql';
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = function (relativePath: string) {
@@ -13,7 +14,8 @@ const resolveApp = function (relativePath: string) {
 };
 
 type Config = {
-  generatedOutputPath?: string;
+  generatedPathJS: string;
+  generatedPathSchema: string;
 };
 const configPath = resolveApp('graphql-typescript-codegen.json');
 const config = fs.existsSync(configPath)
@@ -30,31 +32,31 @@ const prog = sade('graphql-typescript-codegen', true)
         return;
       }
 
-      fs.writeFileSync(
-        configPath,
-        JSON.stringify(
-          {generatedOutputPath: 'src/GeneratedGraphQLSchema.js'},
-          null,
-          2,
-        ),
-      );
+      const defaultConfig: Config = {
+        generatedPathJS: 'src/GeneratedGraphQLSchema.js',
+        generatedPathSchema: 'src/graphql.schema',
+      };
+
+      fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 2));
       console.log('Created config file.');
       return;
     }
 
-    if (!config || !config.generatedOutputPath) {
+    if (!config) {
       console.log('Config file missing. Run with --init to create it.');
       return;
     }
 
-    const outputFilePath = resolveApp(
-      config.generatedOutputPath ?? 'GeneratedGraphQLSchema.js',
-    );
+    const outputFilePath = resolveApp(config.generatedPathJS);
     const o = ora({text: 'Generating GraphQL JS'}).start();
     const generatedFileContents = generator(
       parser({resolveImportsRelativeTo: path.dirname(outputFilePath)}),
     );
     fs.writeFileSync(outputFilePath, generatedFileContents);
-    o.stop();
+    o.succeed('Generated GraphQL JS');
+    o.text = 'Priting schema';
+    const schema = printSchema(require(outputFilePath).schema);
+    fs.writeFileSync(resolveApp(config.generatedPathSchema), schema);
+    o.succeed('Printed schema');
   });
 prog.parse(process.argv);

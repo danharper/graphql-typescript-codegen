@@ -1,3 +1,4 @@
 {
-  "generatedOutputPath": "src/codegen/sample/GeneratedGraphQLSchema.js"
+  "generatedPathJS": "src/codegen/sample/GeneratedGraphQLSchema.js",
+  "generatedPathSchema": "src/codegen/sample/schema.graphql"
 }

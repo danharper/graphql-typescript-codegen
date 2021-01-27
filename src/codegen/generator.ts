@@ -45,7 +45,7 @@ export function generator(schema: SchemaType): string {
 
   p.line(`// @generated`);
   p.line(
-    `import {GraphQLBoolean, GraphQLFloat, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString} from 'graphql';`,
+    `const {GraphQLBoolean, GraphQLFloat, GraphQLID, GraphQLInputObjectType, GraphQLInt, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLScalarType, GraphQLSchema, GraphQLString} = require('graphql');`,
   );
   p.line('');
 
@@ -74,7 +74,7 @@ export function generator(schema: SchemaType): string {
   );
 
   p.line('');
-  p.line(`export const schema = new GraphQLSchema({`).indent();
+  p.line(`exports.schema = new GraphQLSchema({`).indent();
   if (schema.query) {
     p.line(`query: ${generatedName(schema.query)},`);
   }

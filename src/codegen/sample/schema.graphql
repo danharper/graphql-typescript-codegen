@@ -1,0 +1,33 @@
+type Query {
+  location: Location!
+  locations: [Location!]!
+  locationStrings: [String!]
+  aString: String!
+  anIntYeah: Int!
+  map_locations: [String!]!
+  new_map_location(input: Foo!): Location
+}
+
+type Location {
+  aNumber3: Int
+  getNotes: String
+  genNotes: String!
+  genNotesMaybePromise(foo: Int!): String
+  genNotesNullablePromise: String
+  genNotesMaybeNullablePromise: String
+  custom_field_name: Float!
+  differentFieldName: String!
+  name: String!
+  name4: String
+  aNumber: Int!
+  aNumber2: Int
+}
+
+input Foo {
+  blah: Int
+}
+
+type Mutation {
+  create_location(name: String!, age: Float, externalName: Int!, another: String): Location!
+  edit_location(input: Foo!): Location!
+}
