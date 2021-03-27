@@ -214,7 +214,7 @@ class Author {
 
 Which'll correct our generated schema:
 
-```
+```diff
 type Query {
   blog_posts: [BlogPost!]!
 - blog_post(id: Float!): BlogPost
