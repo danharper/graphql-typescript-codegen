@@ -4,9 +4,19 @@ Take your existing TypeScript data structures, add decorators, and generate a fu
 
 **How is this different from other libraries?** They use the decorators at runtime, where type information is limited. This project runs using the TypeScript compiler, and so has access to full details. This means no duplicate type definitions, and fewer workarounds.
 
-**Unfinished** This is just something I hacked on to scratch an itch for a side project; it's unfinished (see "What's not done" below), and I may not continue it. Open sourcing it because I think it's cool ;)
+**Unfinished** This is just something I hacked on to scratch an itch for a side project; it's unfinished (see "What's not done" below), and I may not continue it. Open sourcing it because I think it's cool ;) It's not a package on npm etc. I just have it cloned into an existing project for now.
 
 ## Usage
+
+Run `codegen/index.ts --init` from your project root to create a config file. Edit that file to point to the path where you'd like the generated JS file and GraphQL schema files to be output. The codegen will import code relative to the generated JS file.
+
+Annotate your code with the decorators (see below).
+
+Run the codegen with `codegen/index.ts`. It'll find all usages of `@GraphQLQueryRoot()` and `@GraphQLMutationRoot()` in your code (using your tsconfig), and traverse from there.
+
+First, it generates a GraphQL JS code file definining your schema (a standard GraphQL-JS structure). It then generates the `.graphql` schema file from that JS.
+
+### Annotate your code
 
 Let's build a blog, containing posts and authors. We'll expose 2 root queries: `blog_posts` and `blog_post(id: ID)`; and a mutation: `like_blog_post(id: ID)`.
 
