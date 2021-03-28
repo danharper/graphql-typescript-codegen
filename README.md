@@ -4,6 +4,8 @@ Take your existing TypeScript data structures, add decorators, and generate a fu
 
 **How is this different from other libraries?** They use the decorators at runtime, where type information is limited. This project runs using the TypeScript compiler, and so has access to full details. This means no duplicate type definitions, and fewer workarounds.
 
+**Unfinished** This is just something I hacked on to scratch an itch for a side project; it's unfinished (see "What's not done" below), and I may not continue it. Open sourcing it because I think it's cool ;)
+
 ## Usage
 
 Let's build a blog, containing posts and authors. We'll expose 2 root queries: `blog_posts` and `blog_post(id: ID)`; and a mutation: `like_blog_post(id: ID)`.
@@ -241,15 +243,11 @@ type Author {
 
 todo docs, but use `@GraphQLMutationRoot()` (like `@GraphQLQueryRoot()`), and `@GraphQLInputObject()` on any argument input objects.
 
-#### What's hard/not done?
+#### What's not done?
 
 Interfaces. You can't put TypeScript decorators on them. Thinking of defining them with docblock comments instead..? Or some no-op runtime-style call, like `__exposeGraphQLInterface<MyInterfaceTypeHere>()` - fields are harder/weirder to mark explicitly though..
 
 Enums. Similarly to the above - you can't put TypeScript decorators on them.
-
-## Support
-
-This is just something I hacked on to scratch an itch for a side project. Unlikely to work on it more, but idk.
 
 ## Decorators
 
